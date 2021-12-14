@@ -1,0 +1,59 @@
+int sensorPin = A1; // select the input pin for LDR
+
+#include <dht11.h>
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+dht11 DHT11;
+#define DHT11PIN 8
+int a;
+int b;
+int laserPin = 13;
+
+int l ; // variable to store the value coming from the sensor
+void setup() {
+
+pinMode(laserPin, OUTPUT);  // Define the digital output interface pin 13
+
+  
+Serial.begin(9600); //sets serial port for communication
+// set up the LCD's number of columns and rows:
+lcd.begin(16,2);
+
+
+}
+void loop() {
+  
+digitalWrite(laserPin, HIGH); // Turn on the laser head
+  
+l = analogRead(sensorPin); // read the value from the sensor
+
+
+
+
+DHT11.read(DHT11PIN);
+
+a = DHT11.temperature;
+b = DHT11.humidity;
+
+//Serial.println(DHT11.temperature+"  "+DHT11.humidity);
+//Serial.print(" - ");
+//Serial.print(DHT11.humidity);
+//Special setup for Raspberry pi
+Serial.print(a);
+Serial.print("T");
+Serial.print(b);
+Serial.print("H");
+Serial.print(l);
+Serial.print("L");
+Serial.println();
+
+delay(2000);
+
+// Print message to the LCD.
+lcd.print("Temperature : ");
+lcd.print(a);
+lcd.setCursor(0,1); 
+lcd.print("Humidity    : ");
+lcd.print(b);
+
+}
